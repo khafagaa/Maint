@@ -1,0 +1,194 @@
+import React, { Component, useEffect, useState, useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  AppState,
+  TouchableOpacity,
+  Modal,
+  TextInput
+} from "react-native";
+import RBSheet from "react-native-raw-bottom-sheet";
+
+export default function RBSheets() {
+  const [Num1, setNum1] = useState(0);
+  const [Num2, setNum2] = useState(0);
+  const [Result, setResult] = useState(0);
+  const [Rbs, setRbs] = useState(false);
+
+  const RBSheetRef = useRef();
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        top: 80
+      }}
+    >
+        <Text style={{fontSize:20}}>number 1</Text>
+      <TextInput
+        placeholderTextColor="black"
+        onChangeText={e => {
+          setNum1(e);
+        }}
+        style={styles.input}
+      />
+        <Text style={{fontSize:20}}>Number 2</Text>
+      <TextInput
+        style={styles.input}
+        
+        placeholderTextColor="black"
+        onChangeText={e => {
+          setNum2(e);
+        }}
+        //keyboardType="numeric"
+      />
+    
+      <Button
+        title="calc"
+        onPress={() => RBSheetRef.current.open()}
+      />
+      <RBSheet
+        closeOnDragDown={true}
+        ref={RBSheetRef}
+        height={300}
+        duration={250}
+      >
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Text
+            style={{
+              fontSize: 25,
+              alignSelf: "center",
+              justifyContent: "flex-start"
+            }}
+          >
+            Calculator Menu
+          </Text>
+
+          <View style={{ flexDirection: "row", marginVertical: 30 }}>
+            <TouchableOpacity
+              style={styles.buttoon}
+              onPress={() => {
+                  setResult((parseInt(Num1) + parseInt(Num2))) 
+                RBSheetRef.current.close()
+              }}
+            >
+              <Text style={styles.BShape}>Add</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttoon}
+              onPress={() => {
+                setResult(Num1 - Num2)
+                RBSheetRef.current.close()
+              }}
+            >
+              <Text style={styles.BShape}>Subtract</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flexDirection: "row", marginVertical: 5 }}>
+            <TouchableOpacity
+              style={styles.buttoon}
+              onPress={() => {
+                setResult(Num1 / Num2)
+                RBSheetRef.current.close()
+
+              }}
+            >
+              <Text style={styles.BShape}>Divide</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttoon}
+              onPress={() => {
+                setResult(Num1 * Num2)
+                RBSheetRef.current.close()
+                setRbs(true)
+              }}
+            >
+              <Text style={styles.BShape}>Multiply</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </RBSheet>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={Rbs}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={{ marginTop: 200 , justifyContent:'center', alignItems:'center'}}>
+          <View style={{justifyContent:'center' , alignItems:'center',marginTop: 100 ,}} >
+          <TouchableOpacity
+              style={styles.buttoonn}
+              onPress={() => {
+                setResult(Result * 3)
+                setRbs(false)
+              }}
+            >
+              <Text style={styles.BShape}> multi * 3 </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.buttoonn}
+              onPress={() => {
+                setResult(Result * 4)
+                setRbs(false)
+              }}
+            >
+              <Text style={styles.BShape}>multi  * 4 </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Text style={{fontSize:30 , top:50 , backgroundColor:'red'}} > Result =  {Result} </Text>
+
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  input: {
+    width: 400,
+    height: 30,
+    backgroundColor: "blue",
+    fontSize: 20,
+    color: "#212121",
+    fontStyle: "italic",
+    textAlign: "center",
+    marginVertical: 30
+  },
+  buttoon: {
+    backgroundColor: "blue",
+    width: 200,
+    height: 40,
+    marginVertical:5,
+    marginHorizontal: 5
+  },
+  BShape: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#ffffff",
+    textAlign: "center",
+    justifyContent: "center",
+    alignSelf: "center"
+  },
+  buttoonn: {
+    backgroundColor: "blue",
+    width: 400,
+    height: 50,
+    margin:50
+  },
+});
+
+/**
+ *
+ */
