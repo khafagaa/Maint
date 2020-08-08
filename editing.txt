@@ -1,1 +1,1 @@
-<View style={{flex:1 , }}/>
+<View style={{flex:1 , alignment : 20 }}/>
